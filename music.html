@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Classy Music</title>
+   <link rel="stylesheet" href="./CSS/style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-10/css/all.min.css"
+      integrity="sha512-Pv1WJMqAtVgNNct5vhq+4cgkKinKpV1jCwSWD4am9CjwxsJSCkLWKcE/ZBqHnEE1mHs01c8B0GMvcn/pQ/yrog=="
+      crossorigin="anonymous" />
+   <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+   <div class="main-div">
+      <div class="music-container">
+         <div class="firstitems">
+            <h2 id="music-title">Song Name</h2>
+            <h3 id="music-artistname">Artist Name</h3>
+         </div>
+         <div class="img-container">
+            <img src="./Images/nathan-dumlao-zUNs99PGDg0-unsplash.jpg" alt="Classic Song">
+         </div>
+         <audio src="./MusicList/Just A Dream Nelly.mp3" controls></audio>
+
+         <!--------------Controls--------------->
+         <div class="music-controls">
+            <i class="fas fa-backward" id="backward" title="Previous Song"></i>
+            <i class="fas fa-play music-button" id="play"></i>
+            <i class="fas fa-forward" id="forward" title="Next Song"></i>
+         </div>
+      </div>
+   </div>
+
+   <script type="text/javascript">
+      const music = document.querySelector('audio');
+      const img = document.querySelector('img');
+      const playbtn = document.getElementById('play');
+      const musictitle = document.getElementById('music-title');
+      const forward = document.getElementById('forward');
+      const backward = document.getElementById('backward');
+      const artistname = document.getElementById('music-artistname');
+      playbtn.title = "Play";
+
+      const songs = [{
+         name: "Song-1",
+         musictitle: "Just A Dream Nelly",
+         artistname: "Nelly",
+      },
+      {
+         name: "Song-2",
+         musictitle: "Just Give Me a Reason",
+         artistname: "Pink!",
+      },
+      {
+         name: "Song-3",
+         musictitle: "The Scientist",
+         artistname: "Coldplay",
+      },
+      ];
+      let isPlaying = false;
+
+      const playMusic = () => {
+         isPlaying = true;
+         music.play();
+         playbtn.classList.replace('fa-play', 'fa-pause');
+         playbtn.title = "Pause";
+         img.classList.add("animate");
+      };
+
+      const pauseMusic = () => {
+         isPlaying = false;
+         music.pause();
+         playbtn.classList.replace('fa-pause', 'fa-play');
+         playbtn.title = "Play";
+         img.classList.add("animate");
+      };
+
+      playbtn.addEventListener('click', () => {
+         if (isPlaying == true) {
+            pauseMusic();
+         }
+         else {
+            playMusic();
+         }
+      });
+
+      // load the songs
+      const loadsongs = (songs) => {
+         musictitle.textContent = songs.musictitle;
+         artistname.textContent = songs.artistname;
+         music.src = "MusicList/"+ songs.name +".mp3";
+         img.src = "Images/"+ songs.name +".jpg";
+      }
+      songindex = 0;
+      
+      const nextsong= () => {
+         songindex = (songindex + 1) % songs.length;
+         loadsongs(songs[songindex]);
+         playMusic();
+      };
+      const previoussong= () => {
+         songindex = (songindex - 1 + songs.length) % songs.length;
+         loadsongs(songs[songindex]);
+         playMusic();
+      };
+
+      forward.addEventListener('click', nextsong);
+      backward.addEventListener('click', previoussong);
+   </script>
+</body>
+
+</html>
